@@ -21,3 +21,7 @@
  3. Set up the gitignore to prevent node_modules and environment variables from being pushed to the Github repository
  4. Create a "start" script using nodemon
  5. Create index.js file in main client folder. This houses all of the main code to run the back-end server
+     - Import the necessary dependencies
+     - Start the server
+### Middleware & First Request
+ 6. Initialize the middlewares
