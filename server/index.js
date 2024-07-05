@@ -14,7 +14,15 @@ app.use(express.json())
 app.use(helmet())
 app.use(morgan('common'))
 
+// Test routes to make sure the server is up and running
 
+// app.get('/', (req, res) => {
+//     res.send('Welcome to our home page')
+// })
+
+// app.get('/users', (req, res) => {
+//     res.send('Welcome to the Users page')
+// })
 
 const corsOptions = {
     origin: CLIENT_URL,
