@@ -25,3 +25,15 @@
      - Start the server
 ### Middleware & First Request
  6. Initialize the middlewares
+ 7. Build test routes to make sure server and routes are working properly
+### Creating User Router
+ 8. Create new folder for routes and add users.js file.
+     - This file will contain all the routes to handle user functions
+     - Build a test file to import into the main application and test the routing.
+     - Import file into main application and test the route.
+ 9. Add a new file auth.js
+     - This file will handle all of the authentication and authorization routing, including registration and login routes.
+     - Import file into main application and test the route.
+### Creating User Model
+10. Add database.sql file to handle the tables in the database and begin building the user model.
+    - Build the schema for the Users table containing user_id, username, email, password, profile pic, cover pic, users_following, users_followed, is_admin, created_at & updated_at
