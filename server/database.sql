@@ -9,7 +9,7 @@ CREATE TABLE users (
     cover_img TEXT, -- URL or base64 encoded image data
     users_followed TEXT[], -- Array of strings
     users_following TEXT[], -- Array of strings
-    is_admin BOOLEAN DEAFULT FALSE,
+    is_admin BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
