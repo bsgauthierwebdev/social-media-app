@@ -37,3 +37,7 @@
 ### Creating User Model
 10. Add database.sql file to handle the tables in the database and begin building the user model.
     - Build the schema for the Users table containing user_id, username, email, password, profile pic, cover pic, users_following, users_followed, is_admin, created_at & updated_at
+### Login and Register System
+11. Create db folder and index.js file to handle connection to the database
+12. Create a controllers folder and auth.js file to handle all of the authentication functions
+13. 
