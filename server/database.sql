@@ -7,8 +7,8 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     profile_img TEXT, -- URL or base64 encoded image data
     cover_img TEXT, -- URL or base64 encoded image data
-    subscribers TEXT[], -- Array of strings
-    subscribed TEXT[], -- Array of strings
+    users_followed TEXT[], -- Array of strings
+    users_following TEXT[], -- Array of strings
     is_admin BOOLEAN DEAFULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
