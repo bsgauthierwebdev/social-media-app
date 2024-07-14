@@ -10,6 +10,10 @@ CREATE TABLE users (
     users_followed TEXT[], -- Array of strings
     users_following TEXT[], -- Array of strings
     is_admin BOOLEAN DEFAULT FALSE,
+    desc TEXT,
+    city VARCHAR(255),
+    from VARCHAR(255),
+    relationship VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
