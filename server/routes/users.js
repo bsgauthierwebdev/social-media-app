@@ -75,21 +75,4 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-// router.put('/:id', async (req, res) => {
-//     try {
-//         const {id} = req.params
-//         const {username} = req.body
-//         const updateUser = await db.query(
-//             "UPDATE users SET username = $1 WHERE user_id = $2",
-//             [username, id]
-//         )
-//         const user = await db.query('SELECT * FROM users WHERE user_id = $1', [id])
-//         return res.status(200).json(user.rows[0])
-//     } catch (err) {
-//         return res.status(400).json(err.message)
-//     }
-// })
-
-// Delete User
-
 module.exports = router
