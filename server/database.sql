@@ -10,10 +10,26 @@ CREATE TABLE users (
     users_followed TEXT[], -- Array of strings
     users_following TEXT[], -- Array of strings
     is_admin BOOLEAN DEFAULT FALSE,
-    desc TEXT,
+    about TEXT,
     city VARCHAR(255),
-    from VARCHAR(255),
+    birthplace VARCHAR(255),
     relationship VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Seed Table
+
+-- Add Administrator
+INSERT INTO users (
+    username, email, password, is_admin, about, city, birthplace) VALUES (
+        'admin', 'admin@test.com', 'abc123', true, 'Administrator for this site', 'Hampstead', 'Jacksonville'
+    )
+;
+
+-- Add Test User
+INSERT INTO users (
+    username, email, password, about, city, birthplace) VALUES (
+        'Test1', 'test1@test.com', 'abc123', 'Test user for this site', 'Baltimore', 'Baltimore'
+    )
+;
