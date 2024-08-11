@@ -182,26 +182,6 @@ router.put('/:id', async (req, res) => {
 
             // Update Users Following
 
-            // Update Is Admin
-            // if (req.body.is_admin) {
-            //     try {
-            //         if (isAdmin.rows[0].is_admin) {
-            //             const updateIsAdmin = db.query(
-            //                 'UPDATE users SET is_admin = true WHERE user_id = $2', [is_admin, id]
-            //             )
-            //             const updatedUser = db.query(
-            //                 'SELECT * WHERE user_id = $1', [id]
-            //             )
-            //             return res.status(200).json(updatedUser.rows[0])
-            //         } else {
-            //             return res.status(404).json('User is not an admin')
-            //         }
-            //     } catch (err) {
-            //         return res.status(500).json(err.message)
-            //     }
-                
-            // }
-
             // Update About
             if (req.body.about) {
                 const updateAbout = await db.query(
@@ -225,64 +205,43 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-// Update Username
-router.put('/:id/username', async (req, res) => {
+// Delete a User
+router.delete('/:id', async (req, res) => {
     try {
+        // Deconstruct the request
         const {id} = req.params
-        const {username, userId} = req.body
-        const isAdmin = await db.query(
-            'SELECT is_admin FROM users WHERE user_id = $1', [userId]
+        const {userId} = req.body
+
+        // Check if account exists
+        const validAccount = await db.query(
+            'SELECT * FROM users WHERE user_id = $1', [id]
         )
-        // console.log(isAdmin.rows[0].is_admin)
-        
-        // console.log(user.rows[0].is_admin)
-        // console.log(`Req body = ${userId}, Req params = ${id}`)
-        // console.log(userId === id)
-
-        if (userId === id || isAdmin.rows[0].is_admin) {
-            const updateUser = await db.query(
-                'UPDATE users SET username = $1 WHERE user_id = $2',
-                [username, id]
+        if (validAccount.rows[0]) {
+            // Check if user is administrator
+            const isAdmin = await db.query(
+                'SELECT is_admin FROM users WHERE user_id = $1', [userId]
             )
-            const user = await db.query(
-                'SELECT * FROM users WHERE user_id = $1',
-                [id]
-            )
-            return res.status(200).json(user.rows[0])
+            // Check if user is allowed to alter account
+            if (userId === id || isAdmin.rows[0].is_admin) {
+                try {
+                    const deleteUser = await db.query(
+                        'DELETE FROM users WHERE user_id = $1', [id]
+                    )
+                    return res.status(200).json('User has been deleted')
+                } catch (err) {
+                    return res.status(500).json(err.message)
+                }
+            } else {
+                return res.status(404).json("You do not have permission to update this account")
+            }
         } else {
-            return res.status(400).json('You cannot update another user')
-        }
-
-    } catch (err) {
-        return res.status(500).json(err.message)
-    }
-})
-
-// Update User Email
-router.put('/:id/email', async (req, res) => {
-    try {
-        const {id} = req.params
-        const {email, userId} = req.body
-        const isAdmin = await db.query(
-            'SELECT is_admin FROM users WHERE user_id = $1', [userId]
-        )
-
-        console.log(isAdmin.rows[0].is_admin)
-
-        if (userId === id || isAdmin.rows[0].is_admin) {
-            const updateEmain = await db.query(
-                'UPDATE users SET email = $1 WHERE user_id = $2', [email, id]
-            )
-            const user = await db.query(
-                'SELECT * FROM users WHERE user_id = $1', [id]
-            )
-            return res.status(201).json(user.rows[0])
-        } else {
-            return res.status(400).json('You cannot update another user')
+            return res.status(404).json('Account not found')
         }
     } catch (err) {
         return res.status(500).json(err.message)
     }
 })
+
+
 
 module.exports = router
