@@ -8,31 +8,50 @@ const {hash, compare} = require('bcryptjs')
 // })
 
 // REGISTER
-router.post('/register', async(req, res) => {
-    const {username, email, password} = req.body
+router.post('/register', async (req, res) => {
+    const {newUsername, newEmail, newPassword} = req.body
+
     try {
         // Hash the password
-        // const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await hash(password, 10)
+        const salt = await hash(newPassword, 10)
+        // console.log(newUsername, newEmail, newPassword, salt)
 
-        // const user = await pool.query(
-        //     'SELECT * FROM users WHERE username = $1 OR email = $2', 
-        //     [username, email]
-        // )
-
-        // if (user.rows.length !== 0) {
-        //     return res.status(401).send('User is already registered.')
-        // }
-
-        const newUser = await pool.query(
-            'INSERT INTO users (username, email, password) VALUES ($1, $2, $3)',
-            [username, email, hashedPassword]
+        // Check database for username and email matches
+        const checkUsername = await pool.query(
+            'SELECT username, email FROM users WHERE username iLIKE $1', [newUsername]
         )
 
-        res.status(201).json(newUser)
+        const checkEmail = await pool.query(
+            'SELECT username, email FROM users WHERE email iLIKE $1', [newEmail]
+        )
+
+        if (checkUsername.rows.length) {
+            // console.log(checkUsername.rows[0])
+            return res.status(400).json('Username already exists')
+        }
+
+        else if (checkEmail.rows.length) {
+            // console.log(checkEmail.rows[0])
+            return res.status(400).json('Email already exists')
+        }
+        else {
+            // Insert new user into the database
+            const newUser = await pool.query(
+                'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *', [newUsername, newEmail, salt]
+            )
+            // console.log(newUser)
+            
+            // Remove the password from the return
+            const {password, ...result} = newUser.rows[0]
+            return res.status(201).json({
+                message: "New user added successfully",
+                user: result
+            })
+        }
+
+        
     } catch (err) {
-        console.error(err.message)
-        res.status(500).json(err)
+        return res.status(500).json(err.message)
     }
 })
 
