@@ -9,20 +9,20 @@ const {hash, compare} = require('bcryptjs')
 
 // REGISTER
 router.post('/register', async (req, res) => {
-    const {newUsername, newEmail, newPassword} = req.body
+    const {username, email, password} = req.body
 
     try {
         // Hash the password
-        const salt = await hash(newPassword, 10)
-        // console.log(newUsername, newEmail, newPassword, salt)
+        const salt = await hash(password, 10)
+        // console.log(username, email, password, salt)
 
         // Check database for username and email matches
         const checkUsername = await pool.query(
-            'SELECT username, email FROM users WHERE username iLIKE $1', [newUsername]
+            'SELECT username, email FROM users WHERE username iLIKE $1', [username]
         )
 
         const checkEmail = await pool.query(
-            'SELECT username, email FROM users WHERE email iLIKE $1', [newEmail]
+            'SELECT username, email FROM users WHERE email iLIKE $1', [email]
         )
 
         if (checkUsername.rows.length) {
@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
         else {
             // Insert new user into the database
             const newUser = await pool.query(
-                'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *', [newUsername, newEmail, salt]
+                'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *', [username, email, salt]
             )
             // console.log(newUser)
             
