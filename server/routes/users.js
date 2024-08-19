@@ -10,16 +10,36 @@ const bcrypt = require('bcryptjs')
 // Get All Users Route
 router.get('/', async (req, res) => {
     try {
-        const {rows} = await db.query('SELECT * FROM users ORDER BY user_id ASC')
+        const users = await db.query(
+            'SELECT * FROM users ORDER BY user_id ASC'
+        )
+
+        users.rows.forEach(user => {
+            delete user.password
+        })
 
         return res.status(200).json({
             success: true,
-            users: rows
+            users: users.rows
         })
     } catch (err) {
-        console.log(err.message)
+        return res.status(500).json(err.message)
     }
 })
+
+
+// router.get('/', async (req, res) => {
+//     try {
+//         const {rows} = await db.query('SELECT * FROM users ORDER BY user_id ASC')
+
+//         return res.status(200).json({
+//             success: true,
+//             users: rows
+//         })
+//     } catch (err) {
+//         console.log(err.message)
+//     }
+// })
 
 // Get a User
 router.get('/:id', async (req, res) => {
@@ -30,7 +50,9 @@ router.get('/:id', async (req, res) => {
             [id]
         )
 
-        res.status(200).json(user.rows[0])
+        const {password, created_at, updated_at, ...safeData} = user.rows[0]
+
+        res.status(200).json(safeData)
     } catch (err) {
         console.log(err.message)
     }
