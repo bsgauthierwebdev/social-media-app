@@ -59,8 +59,74 @@ router.get('/:id', async (req, res) => {
 })
 
 // Follow a User
+router.put('/:id/follow', async (req, res) => {
+    const {id} = req.params
+    const {userId} = req.body
+    if (userId !== id) {
+        try {
+            const user = await db.query(
+                'SELECT * FROM users WHERE user_id = $1',
+                [id]
+            )
+            const currentUser = await db.query(
+                'SELECT * FROM users WHERE user_id = $1',
+                [userId]
+            )
+
+            if (!currentUser.rows[0].users_following.includes(id)) {
+                await db.query(
+                    'UPDATE users SET users_following = array_append(users_following, $1) WHERE user_id = $2',
+                    [id, userId]
+                )
+                const currentUserFollowing = await db.query(
+                    'SELECT user_id, users_following FROM users WHERE user_id = $1', [userId]
+                )
+
+                return res.status(200).json(currentUserFollowing)
+            } else {
+                return res.status(403).json('You already follow this account')
+            }
+        } catch (err) {
+            return res.status(500).json(err.message)
+        }
+    } else {
+        res.status(403).json('You cannot follow your own account')
+    }
+})
 
 // Unfollow a User
+router.put('/:id/unfollow', async (req, res) => {
+    const {id} = req.params
+    const {userId} = req.body
+    if (userId !== id) {
+        try {
+            const user = await db.query(
+                'SELECT * FROM users WHERE user_id = $1', [id]
+            )
+            const currentUser = await db.query(
+                'SELECT * FROM users WHERE user_id = $1', [userId]
+            )
+
+            if (currentUser.rows[0].users_following.includes(id)) {
+                await db.query(
+                    'UPDATE users SET users_following = array_remove(users_following, $1) WHERE user_id = $2',
+                    [id, userId]
+                )
+                const currentUserFollowing = await db.query(
+                    'SELECT user_id, users_following FROM users WHERE user_id = $1', [userId]
+                )
+
+                return res.status(200).json(currentUserFollowing)
+            } else {
+                return res.status(403).json('You are not following this account')
+            }
+        } catch (err) {
+            return res.status(500).json(err.message)
+        }
+    } else {
+        res.status(403).json('You cannot unfollow your own account')
+    }
+})
 
 // Update Admin Status
 
