@@ -7,8 +7,8 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     profile_img TEXT, -- URL or base64 encoded image data
     cover_img TEXT, -- URL or base64 encoded image data
-    users_followed TEXT[], -- Array of strings
-    users_following TEXT[], -- Array of strings
+    users_followed TEXT[] DEFAULT '{}', -- Array of strings
+    users_following TEXT[] DEFAULT '{}', -- Array of strings
     is_admin BOOLEAN DEFAULT FALSE,
     about TEXT,
     city VARCHAR(255),
