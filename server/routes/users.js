@@ -8,38 +8,30 @@ const bcrypt = require('bcryptjs')
 // })
 
 // Get All Users Route
-router.get('/', async (req, res) => {
-    try {
-        const users = await db.query(
-            'SELECT * FROM users ORDER BY user_id ASC'
-        )
+router.get('/findall', async (req, res) => {
+    // Define variables for function
+    const {userId} = req.body
+    const checkAdmin = await db.query(
+        'SELECT is_admin FROM users WHERE user_id = $1',
+        [userId]
+    )
 
-        users.rows.forEach(user => {
-            delete user.password
-        })
+    // Verify current user is an adminstrator
+    if (checkAdmin.rows[0].is_admin) {
+        // return res.status(200).json('You are an adminstrator')
+        try {
+            const allUsers = await db.query(
+                'SELECT * FROM users ORDER BY user_id ASC'
+            )
 
-        return res.status(200).json({
-            success: true,
-            users: users.rows
-        })
-    } catch (err) {
-        return res.status(500).json(err.message)
+            return res.json(allUsers.rows)
+        } catch (err) {
+            return res.status(500).json(err.message)
+        }
+    } else {
+        return res.status(404).json('You do not have permission to view this page')
     }
 })
-
-
-// router.get('/', async (req, res) => {
-//     try {
-//         const {rows} = await db.query('SELECT * FROM users ORDER BY user_id ASC')
-
-//         return res.status(200).json({
-//             success: true,
-//             users: rows
-//         })
-//     } catch (err) {
-//         console.log(err.message)
-//     }
-// })
 
 // Get a User
 router.get('/:id', async (req, res) => {
