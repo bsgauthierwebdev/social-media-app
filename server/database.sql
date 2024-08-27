@@ -37,11 +37,11 @@ INSERT INTO users (
 -- Posts Table
 CREATE TABLE posts (
     post_id SERIAL PRIMARY KEY,
-    userId NOT NULL,
-    title VARCHAR(255) NOT NULL,
+    userId INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    likes TEXT[] DEFAULT '{}',
-    FOREIGN KEY (userId) REFERENCES users (user_id) ON DELETE CASCADE
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    likes TEXT[] DEFAULT '{}'
+    -- title VARCHAR(255) NOT NULL,
+);
