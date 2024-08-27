@@ -37,7 +37,7 @@ INSERT INTO users (
 -- Posts Table
 CREATE TABLE posts (
     post_id SERIAL PRIMARY KEY,
-    owner INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
