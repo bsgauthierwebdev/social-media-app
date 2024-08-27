@@ -9,13 +9,13 @@ const db = require('../db')
 // Create a post
 router.post('/', async (req, res) => {
     // Destructure the request
-    const {owner, content, image_url} = req.body
+    const {userId, content, image_url} = req.body
 
     try {
         // Add new post
         const newPost = await db.query(
-            'INSERT INTO posts (owner, content, image_url) VALUES ($1, $2, $3) RETURNING *',
-            [owner, content, image_url]
+            'INSERT INTO posts (userId, content, image_url) VALUES ($1, $2, $3) RETURNING *',
+            [userId, content, image_url]
         )
 
         return res.status(201).json(newPost.rows[0])
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     // Destructure the request
     const {id} = req.params
-    const {owner, content, image_url} = req.body
+    const {userId, content, image_url} = req.body
     
     try {
         // Find the post
@@ -36,12 +36,12 @@ router.put('/:id', async (req, res) => {
             'SELECT * FROM posts WHERE post_id = $1',
             [id]
         )
-        // console.log(post.rows[0].owner)
-        // console.log(req.body.owner)
-        // console.log(post.rows[0].owner == owner)
+        // console.log(post.rows[0].userId)
+        // console.log(req.body.userId)
+        // console.log(post.rows[0].userId == userId)
 
         // Check to see if the current user matches the post author
-        if (post.rows[0].owner == owner) {
+        if (post.rows[0].user_id == userId) {
             
             // Check to see what is being edited
             if (req.body.content) {
