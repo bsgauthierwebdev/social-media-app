@@ -127,14 +127,21 @@ router.put('/:id/like', async (req, res) => {
             [userId]
         )
         // console.log(currentUser.rows[0])
+        // Change current user ID to a string
+        const currentUserToString = currentUser.rows[0].user_id.toString()
 
         // Check if current user is owner of the post
-        if (post.rows[0].user_id != currentUser.rows[0].user_id) {
+        if (post.rows[0].user_id != currentUserToString) {
+            // return res.status(200).json('This is not your post')
+            // console.log(currentUserToString)
+            // console.log(post.rows[0].likes)
+            // console.log(post.rows[0].likes.includes(currentUserToString))
+
             // Determine if the post is already liked by the user
-            if (!post.rows[0].likes.includes(currentUser.rows[0].user_id)) {
+            if (!post.rows[0].likes.includes(currentUserToString)) {
                 const likePost = await db.query(
                     'UPDATE posts SET likes = array_append(likes, $1) WHERE post_id = $2',
-                    [currentUser.rows[0].user_id, id]
+                    [currentUserToString, id]
                 )
                 return res.status(200).json('You liked this post')
             } else {
@@ -174,9 +181,9 @@ router.put('/:id/unlike', async (req, res) => {
         // Check if current user is owner of the post
         if (post.rows[0].user_id != currentUserToString) {
             // return res.status(200).json('This is not your post')
-            console.log(currentUserToString)
-            console.log(post.rows[0].likes)
-            console.log(post.rows[0].likes.includes(currentUserToString))
+            // console.log(currentUserToString)
+            // console.log(post.rows[0].likes)
+            // console.log(post.rows[0].likes.includes(currentUserToString))
 
             // Check to see if the post is already liked by the current user
             if (post.rows[0].likes.includes(currentUserToString)) {
