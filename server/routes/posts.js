@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { response } = require('express')
 const db = require('../db')
 
 // Test Routing
@@ -107,6 +108,95 @@ router.get('/:id', async (req, res) => {
 })
 
 // Like a post
+router.put('/:id/like', async (req, res) => {
+    // Deconstruct the request
+    const {id} = req.params
+    const {userId} = req.body
+
+    try {
+        // Get the post data
+        const post = await db.query(
+            'SELECT * FROM posts WHERE post_id = $1',
+            [id]
+        )
+        // console.log(post.rows[0])
+
+        // Get the current user's data
+        const currentUser = await db.query(
+            'SELECT * FROM users WHERE user_id = $1',
+            [userId]
+        )
+        // console.log(currentUser.rows[0])
+
+        // Check if current user is owner of the post
+        if (post.rows[0].user_id != currentUser.rows[0].user_id) {
+            // Determine if the post is already liked by the user
+            if (!post.rows[0].likes.includes(currentUser.rows[0].user_id)) {
+                const likePost = await db.query(
+                    'UPDATE posts SET likes = array_append(likes, $1) WHERE post_id = $2',
+                    [currentUser.rows[0].user_id, id]
+                )
+                return res.status(200).json('You liked this post')
+            } else {
+                return res.status(400).json('You have already liked this post')
+            }
+        } else {
+            return res.status(404).json("You can't like your own post")
+        }
+    } catch (err) {
+        return res.status(500).json(err.message)
+    }
+})
+
+// Unlike a post
+router.put('/:id/unlike', async (req, res) => {
+    // Deconstruct the request
+    const {id} = req.params
+    const {userId} = req.body
+
+    try {
+        // Get the post data
+        const post = await db.query(
+            'SELECT * FROM posts WHERE post_id = $1',
+            [id]
+        )
+        // console.log(post.rows[0])
+
+        // Get the current user data
+        const currentUser = await db.query(
+            'SELECT * FROM users WHERE user_id = $1',
+            [userId]
+        )
+        // console.log(currentUser.rows[0])
+        // Change current user ID to a string
+        const currentUserToString = currentUser.rows[0].user_id.toString()
+
+        // Check if current user is owner of the post
+        if (post.rows[0].user_id != currentUserToString) {
+            // return res.status(200).json('This is not your post')
+            console.log(currentUserToString)
+            console.log(post.rows[0].likes)
+            console.log(post.rows[0].likes.includes(currentUserToString))
+
+            // Check to see if the post is already liked by the current user
+            if (post.rows[0].likes.includes(currentUserToString)) {
+                // return res.status(200).json("You have already liked this post")
+                const unlikePost = await db.query(
+                    'UPDATE posts SET likes = array_remove(likes, $1) WHERE post_id = $2',
+                    [currentUser.rows[0].user_id, id]
+                )
+
+                return res.status(200).json('The post has been unliked')
+            } else {
+                return res.status(404).json("You have not already liked this post")
+            }
+        } else {
+            return res.status(404).json("You can't like / unlike your own posts")
+        }
+    } catch (err) {
+        return res.status(500).json(err.message)
+    }
+})
 
 // Delete a post
 router.delete('/:id', async (req, res) => {
