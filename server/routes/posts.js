@@ -109,7 +109,43 @@ router.get('/:id', async (req, res) => {
 // Like a post
 
 // Delete a post
+router.delete('/:id', async (req, res) => {
+    // Deconstruct the request
+    const {id} = req.params
+    const {userId} = req.body
 
+    try {
+        // Check if the post is valid
+        const validPost = await db.query(
+            'SELECT * FROM posts WHERE post_id = $1',
+            [id]
+        )
+
+        // console.log(validPost.rows)
+
+        if (validPost.rows.length) {
+            // Check if current user is an administrator
+            const isAdmin = await db.query(
+                'SELECT is_admin FROM users WHERE user_id = $1',
+                [userId]
+            )
+
+            if (userId == validPost.rows[0].user_id || isAdmin.rows[0].is_admin) {
+                await db.query(
+                    'DELETE from posts WHERE post_id = $1',
+                    [id]
+                )
+                return res.status(200).json('Post has been deleted')
+            } else {
+                return res.status(404).json('Access denied')
+            }
+        } else {
+            return res.status(404).json('Post not found')
+        }
+    } catch (err) {
+        return res.status(500).json(err.message)
+    }
+})
 
 
 module.exports = router
