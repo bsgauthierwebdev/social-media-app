@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     try {
         // Add new post
         const newPost = await db.query(
-            'INSERT INTO posts (userId, content, image_url) VALUES ($1, $2, $3) RETURNING *',
+            'INSERT INTO posts (user_id, content, image_url) VALUES ($1, $2, $3) RETURNING *',
             [userId, content, image_url]
         )
 
@@ -87,6 +87,48 @@ router.put('/:id', async (req, res) => {
 })
 
 // Get timeline posts
+router.get('/timeline', async (req, res) => {
+    let {userId} = req.body
+    let postArray = []
+
+    try {
+        const currentUser = await db.query(
+            'SELECT * FROM users WHERE user_id = $1',
+            [userId]
+        )
+        // console.log(currentUser.rows)
+        // console.log(currentUser.rows[0].users_followed)
+
+        if (currentUser.rows.length) {
+            // return res.status(200).json('User found')
+
+            const userPosts = await db.query(
+                'SELECT * FROM posts WHERE user_id = $1 ORDER BY updated_at DESC',
+                [userId]
+            )
+            
+            const usersFollowed = currentUser.rows[0].users_followed
+
+            // console.log(usersFollowed)
+
+            const friendPosts = await db.query(
+                'SELECT p.* FROM posts p JOIN users u ON p.user_id = ANY(u.users_followed) WHERE u.user_id = $1',
+                [userId]
+            )
+
+            if (friendPosts.rows.length > 0) {
+                return res.status(200).json(friendPosts.rows)
+            } else {
+                return res.status(400).json("You don't follow any other users")
+            }
+        } else {
+            return res.status(404).json('We could not find that user')
+        }
+
+    } catch (err) {
+        return res.status(500).json(err.message)
+    }
+})
 
 // Get a single post
 router.get('/:id', async (req, res) => {
