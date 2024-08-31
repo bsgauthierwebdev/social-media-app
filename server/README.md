@@ -40,4 +40,12 @@
 ### Login and Register System
 11. Create db folder and index.js file to handle connection to the database
 12. Create a controllers folder and auth.js file to handle all of the authentication functions
-13. 
+### Node.js Express CRUD
+### Follow & Unfollow User
+### Creating Post Model
+### Node.js PostgreSQL Post CRUD
+### Like & Unlike Post
+### Nested Asynchronous Fetch
+### Future
+
+# Social Media App Front-End
