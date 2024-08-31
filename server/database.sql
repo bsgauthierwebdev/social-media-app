@@ -7,8 +7,8 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     profile_img TEXT, -- URL or base64 encoded image data
     cover_img TEXT, -- URL or base64 encoded image data
-    users_followed TEXT[] DEFAULT '{}', -- Array of strings
-    users_following TEXT[] DEFAULT '{}', -- Array of strings
+    users_followed INTEGER[] DEFAULT '{}', -- Array of strings
+    users_following INTEGER[] DEFAULT '{}', -- Array of strings
     is_admin BOOLEAN DEFAULT FALSE,
     about TEXT,
     city VARCHAR(255),
@@ -42,6 +42,6 @@ CREATE TABLE posts (
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    likes TEXT[] DEFAULT '{}'
+    likes INTEGER[] DEFAULT '{}'
     -- title VARCHAR(255) NOT NULL,
 );
