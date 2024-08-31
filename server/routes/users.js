@@ -56,43 +56,51 @@ router.put('/:id/follow', async (req, res) => {
     const {id} = req.params
     const {userId} = req.body
 
+    // Define current user and viewed user
+    const viewedUser = await db.query(
+        'SELECT * FROM users WHERE user_id = $1', [id]
+    )
+
+    const currentUser = await db.query(
+        'SELECT * FROM users WHERE user_id = $1', [userId]
+    )
+
+    // console.log(currentUser.rows[0].user_id)
+    // console.log(viewedUser.rows[0].user_id)
+
+    // console.log(viewedUser.rows[0].user_id === currentUser.rows[0].user_id)
+
     // Check if user is viewing their own account
     if (userId !== id) {
         try {
-            // Define current user and viewed user
-            const viewedUser = await db.query(
-                'SELECT * FROM users WHERE user_id = $1', [id]
-            )
-
-            const currentUser = await db.query(
-                'SELECT * FROM users WHERE user_id = $1', [userId]
-            )
-
             // Make sure current user is not already following viewed user
-            if (!currentUser.rows[0].users_followed.includes(id)) {
-                // Add viewed user ID to current user's users_followed array
-                await db.query(
+            // console.log(currentUser.rows[0].users_followed.includes(viewedUser.rows[0].user_id))
+            if (!currentUser.rows[0].users_followed.includes(viewedUser.rows[0].user_id)) {
+                
+                // Add viewedUser ID to currentUser's users_followed array
+                const followUser = await db.query(
                     'UPDATE users SET users_followed = array_append(users_followed, $1) WHERE user_id = $2',
-                    [id, userId]
+                    [viewedUser.rows[0].user_id, userId]
                 )
 
-                // Check to see if viewed user is followed by current user
                 if (!viewedUser.rows[0].users_following.includes(userId)) {
-                    await db.query(
+                    const updateFollowers = await db.query(
                         'UPDATE users SET users_following = array_append(users_following, $1) WHERE user_id = $2',
-                        [userId, id]
+                        [currentUser.rows[0].user_id, id]
                     )
                 }
-                // Request updated user information
+
                 const updatedUser = await db.query(
-                    'SELECT user_id, username, users_followed FROM users WHERE user_id = $1', 
+                    'SELECT user_id, username, users_followed FROM users WHERE user_id = $1',
                     [userId]
                 )
-
-                // Return status and display updated information
-                return res.status(200).json(updatedUser.rows[0])
+    
+                return res.status(200).json({
+                    message: 'User followed',
+                    json: updatedUser.rows[0]
+                })
             } else {
-                return res.status(403).json('You already follow this user')
+                return res.status(404).json('You already follow this user')
             }
         } catch (err) {
             return res.status(500).json(err.message)
@@ -108,20 +116,25 @@ router.put('/:id/unfollow', async (req, res) => {
     const {id} = req.params
     const {userId} = req.body
 
+    // Define current user and viewed user
+    const viewedUser = await db.query(
+        'SELECT * FROM users WHERE user_id = $1', [id]
+    )
+
+    const currentUser = await db.query(
+        'SELECT * FROM users WHERE user_id = $1', [userId]
+    )
+
+    // console.log(currentUser.rows[0].user_id)
+    // console.log(viewedUser.rows[0].user_id)
+
+    // console.log(viewedUser.rows[0].user_id === currentUser.rows[0].user_id)
+
     // Check if user is viewing their own account
     if (userId !== id) {
         try {
-            // Define current user and viewed user
-            const viewedUser = await db.query(
-                'SELECT * FROM users WHERE user_id = $1', [id]
-            )
-
-            const currentUser = await db.query(
-                'SELECT * FROM users WHERE user_id = $1', [userId]
-            )
-
             // Make sure current user is following viewed user
-            if (currentUser.rows[0].users_followed.includes(id)) {
+            if (currentUser.rows[0].users_followed.includes(viewedUser.rows[0].user_id)) {
                 // Remove viewed user's ID from current user's users_followed array
                 await db.query(
                     'UPDATE users SET users_followed = array_remove(users_followed, $1) WHERE user_id = $2',
@@ -129,7 +142,7 @@ router.put('/:id/unfollow', async (req, res) => {
                 )
 
                 // Check to see if current user is followed by viewed user
-                if (viewedUser.rows[0].users_following.includes(userId)) {
+                if (viewedUser.rows[0].users_following.includes(currentUser.rows[0].user_id)) {
                     await db.query(
                         'UPDATE users SET users_following = array_remove(users_following, $1) WHERE user_id = $2',
                         [userId, id]
@@ -144,7 +157,9 @@ router.put('/:id/unfollow', async (req, res) => {
             )
 
             // Return status and display information
-            return res.status(200).json(updatedUser.rows[0])
+            return res.status(200).json({
+                message: 'User no longer followed',
+                json: updatedUser.rows[0]})
         } catch (err) {
             return res.status(500).json(err.message)
         }
