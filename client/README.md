@@ -8,7 +8,16 @@
  ### Installation
  1. Create the client folder and create the React application
      - npx create-react-app
- 
+ 2. Topbar Component
+ 3. Body Components
+ 4. Sidebar Component with Materian Icons
+ 5. Feed (Share, Post Components)
+ 6. Rightbar Component
+ 7. Using Dynamic Data
+ 8. Like Functionality with useState Hook
+ 9. Profile Page
+10. Login & Register Pages
+11. Future
 
 
 
