@@ -17,6 +17,10 @@
      - Create style.css file in the public folder and link it in the index.html file
      - Set up global styling in the style.css file in the public folder
      - Create assets folder in the public folder to host images to be used in the project
+     - Create folders for pages & components in the src folder
+     - Create home folder in the pages folder with files Home.js & home.css
+     - Import the Home page in the App.js file
+     - Install Material Icons into the project (npm install @mui/material @mui/icons-material)
  2. Topbar Component
  3. Body Components
  4. Sidebar Component with Materian Icons
