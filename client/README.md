@@ -8,6 +8,15 @@
  ### Installation
  1. Create the client folder and create the React application
      - npx create-react-app
+     - Delete unnecessary files from src folder (all files except App.js & index.js)
+     - Clean up unnecessary code from App.js & index.js files
+     - Delete unnecessary files from public folder (all files except index.html)
+     - Clean up unnecesary code from index.html
+     - Select font style from Google Fonts
+     - Paste font information into index.html
+     - Create style.css file in the public folder and link it in the index.html file
+     - Set up global styling in the style.css file in the public folder
+     - Create assets folder in the public folder to host images to be used in the project
  2. Topbar Component
  3. Body Components
  4. Sidebar Component with Materian Icons
