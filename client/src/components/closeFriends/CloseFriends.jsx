@@ -1,5 +1,4 @@
 import React from 'react'
-import { Users } from '../../dummyData'
 import './closeFriends.css'
 
 const CloseFriends = ({user}) => {
