@@ -25,6 +25,9 @@
      - Make topbar folder in the components folder and create Topbar.jsx & topbar.css files
      - Import Topbar component into the Home page
  3. Body Components
+     - Create feed, sidebar & rightbar folders in the components folder
+     - Create .jsx & .css files in the folders mentioned above
+     - Build & style Sidebar component and import into the Home component
  4. Sidebar Component with Materian Icons
  5. Feed (Share, Post Components)
  6. Rightbar Component
