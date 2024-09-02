@@ -27,17 +27,22 @@
  3. Body Components
      - Create feed, sidebar & rightbar folders in the components folder
      - Create .jsx & .css files in the folders mentioned above
-     - Build & style Sidebar component and import into the Home component
-     - Create folder for and build new Share component
+ 4. Sidebar Component with Materian Icons
+  - Build & style Sidebar component and import into the Home component
+ 5. Feed (Share, Post Components)
+  - Create folder for and build new Share component
      - Import Share component into the Feed component (This is where you can add posts)
      - Create folder for and build new Post component
      - Add the Post component to the Feed component underneath the Share component
-     - Build & style the Rightbar component
- 4. Sidebar Component with Materian Icons
- 5. Feed (Share, Post Components)
  6. Rightbar Component
+     - Build & style the Rightbar component
  7. Using Dynamic Data
+     - Create a file with dummy data to set up mapping
+     - Set up the Post component in the Feed component to map each post from the dummy data
+     - Import the Users data into the Post component so we can map the post.userId to the User's id and extract the information
+     - Build Online & CloseFriends components. Import Online into Rightbar to handle monitoring who is online, and import CloseFriends into Sidebar to keep track of close friends. Map the data from the dummy data.
  8. Like Functionality with useState Hook
+     - Import the useState hook into the Post component. Set up state for like and isLiked values. Use the thumbs-up and heart icons to change the isLiked state and change the like value accordingly.
  9. Profile Page
 10. Login & Register Pages
 11. Future
