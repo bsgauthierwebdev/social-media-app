@@ -22,6 +22,8 @@
      - Import the Home page in the App.js file
      - Install Material Icons into the project (npm install @mui/material @mui/icons-material)
  2. Topbar Component
+     - Make topbar folder in the components folder and create Topbar.jsx & topbar.css files
+     - Import Topbar component into the Home page
  3. Body Components
  4. Sidebar Component with Materian Icons
  5. Feed (Share, Post Components)
