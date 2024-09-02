@@ -28,6 +28,10 @@
      - Create feed, sidebar & rightbar folders in the components folder
      - Create .jsx & .css files in the folders mentioned above
      - Build & style Sidebar component and import into the Home component
+     - Create folder for and build new Share component
+     - Import Share component into the Feed component (This is where you can add posts)
+     - Create folder for and build new Post component
+     - Add the Post component to the Feed component underneath the Share component
  4. Sidebar Component with Materian Icons
  5. Feed (Share, Post Components)
  6. Rightbar Component
