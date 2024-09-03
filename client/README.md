@@ -44,6 +44,9 @@
  8. Like Functionality with useState Hook
      - Import the useState hook into the Post component. Set up state for like and isLiked values. Use the thumbs-up and heart icons to change the isLiked state and change the like value accordingly.
  9. Profile Page
+     - Create folder for new Profile page in the Pages folder
+     - Import the Profile component in the App.js file
+     - Create separate setups for the Rightbar component whether you are on the Home or Profile page
 10. Login & Register Pages
 11. Future
 
