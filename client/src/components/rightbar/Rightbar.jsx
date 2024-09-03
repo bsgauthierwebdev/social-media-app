@@ -3,10 +3,11 @@ import {Users} from '../../dummyData'
 import './rightbar.css'
 import Online from '../online/Online'
 
-const Rightbar = () => {
-  return (
-    <div className="rightbarContainer">
-      <div className="rightbarWrapper">
+const Rightbar = ({profile}) => {
+
+  const HomeRightBar = () => {
+    return (
+      <>
         <div className="birthdayContainer">
           <img src="assets/gift.png" alt="" className="birthdayImg" />
           <span className="birthdayText">
@@ -20,6 +21,63 @@ const Rightbar = () => {
             <Online key = {u.id}user = {u} />
           ))}
         </ul>
+      </>
+    )
+  }
+
+  const ProfileRightBar = () => {
+    return (
+      <>
+        <h4 className="rightbarTitle">User information</h4>
+        <div className="rightbarInfo">
+          <div className="rightbarInfoItem">
+            <span className="rightbarInfoKey">City:</span>
+            <span className="rightbarInfoValue">Baltimore</span>
+          </div>
+          <div className="rightbarInfoItem">
+            <span className="rightbarInfoKey">From:</span>
+            <span className="rightbarInfoValue">Baton Rouge</span>
+          </div>
+          <div className="rightbarInfoItem">
+            <span className="rightbarInfoKey">Relationship:</span>
+            <span className="rightbarInfoValue">It's really complicated...</span>
+          </div>
+        </div>
+        <h4 className="rightbarTitle">User friends</h4>
+        <div className="rightbarFollowings">
+          <div className="rightbarFollowing">
+            <img src="/assets/person/1.jpeg" alt="" className="rightbarFollowingImg" />
+            <span className="rightbarFollowingName">Major Burns</span>
+          </div>
+          <div className="rightbarFollowing">
+            <img src="/assets/person/2.jpeg" alt="" className="rightbarFollowingImg" />
+            <span className="rightbarFollowingName">Major Burns</span>
+          </div>
+          <div className="rightbarFollowing">
+            <img src="/assets/person/3.jpeg" alt="" className="rightbarFollowingImg" />
+            <span className="rightbarFollowingName">Major Burns</span>
+          </div>
+          <div className="rightbarFollowing">
+            <img src="/assets/person/4.jpeg" alt="" className="rightbarFollowingImg" />
+            <span className="rightbarFollowingName">Major Burns</span>
+          </div>
+          <div className="rightbarFollowing">
+            <img src="/assets/person/5.jpeg" alt="" className="rightbarFollowingImg" />
+            <span className="rightbarFollowingName">Major Burns</span>
+          </div>
+          <div className="rightbarFollowing">
+            <img src="/assets/person/6.jpeg" alt="" className="rightbarFollowingImg" />
+            <span className="rightbarFollowingName">Major Burns</span>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <div className="rightbarContainer">
+      <div className="rightbarWrapper">
+        <ProfileRightBar />
       </div>
     </div>
   )
