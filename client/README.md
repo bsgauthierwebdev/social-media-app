@@ -48,6 +48,12 @@
      - Import the Profile component in the App.js file
      - Create separate setups for the Rightbar component whether you are on the Home or Profile page
 10. Login & Register Pages
+    - Create a folder for Login page then add Login.jsx & login.css files
+    - Import the files into the main App.js file
+    - Build & style Login page
+    - Create a folder for Register page then add Register.jsx & register.css files
+    - Import the files into the main App.js file
+    - Build & style Register page
 11. Future
 
 
