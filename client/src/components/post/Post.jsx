@@ -5,6 +5,8 @@ import { Users } from '../../dummyData'
 import './post.css'
 
 const Post = ({post}) => {
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER
+
     // console.log(post)
     // const user = Users.filter(u => u.id === 1)
 
@@ -42,12 +44,12 @@ const Post = ({post}) => {
             <div className="postBottom">
                 <div className="postBottomLeft">
                     <img 
-                        src="assets/like.png" 
+                        src={`${PF}like.png`}
                         alt="" className="likeIcon"
                         onClick = {likeHandler} 
                     />
                     <img 
-                        src="assets/heart.png" 
+                        src={`${PF}heart.png`}
                         alt="" className="likeIcon"
                         onClick = {likeHandler} 
                     />
