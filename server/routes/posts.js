@@ -87,9 +87,9 @@ router.put('/:id', async (req, res) => {
 })
 
 // Get timeline posts
-router.get('/timeline', async (req, res) => {
+router.get('/timeline/:userId', async (req, res) => {
     // Deconstruct the request
-    let {userId} = req.body
+    let {userId} = req.params
 
     try {
         const currentUser = await db.query(
