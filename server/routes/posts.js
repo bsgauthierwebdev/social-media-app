@@ -116,11 +116,17 @@ router.get('/timeline/:userId', async (req, res) => {
                 [userId]
             )
 
-            if (friendPosts.rows.length > 0) {
-                return res.status(200).json(friendPosts.rows)
-            } else {
-                return res.status(400).json("You don't follow any other users")
-            }
+            const allPosts = [...userPosts.rows, ...friendPosts.rows]
+
+            allPosts.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+
+            // if (friendPosts.rows.length > 0) {
+            //     return res.status(200).json(friendPosts.rows)
+            // } else {
+            //     return res.status(400).json("You don't follow any other users")
+            // }
+
+            return res.status(200).json(allPosts)
         } else {
             return res.status(404).json('We could not find that user')
         }
