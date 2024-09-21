@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
-import { Users } from '../../dummyData'
+// import { Users } from '../../dummyData'
 import './post.css'
+import axios from 'axios'
+import {format} from 'timeago.js'
 
 const Post = ({post}) => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER
@@ -11,8 +13,17 @@ const Post = ({post}) => {
     // const user = Users.filter(u => u.id === 1)
 
     // console.log(user[0].username)
-    const [like, setLike] = useState(post.like)
+    const [like, setLike] = useState(post.likes.length)
     const [isLiked, setIsLiked] = useState(false)
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await axios.get(`users/${post.user_id}`)
+            setUser(res.data)
+        }
+        fetchUser()
+    }, [post.user_id])
 
     const likeHandler = () => {
         setLike(isLiked ? like - 1 : like + 1)
@@ -25,13 +36,16 @@ const Post = ({post}) => {
             <div className="postTop">
                 <div className="postTopLeft">
                     <img 
-                        src = {Users.filter(u => u.id === post.userId)[0].profilePicture} 
-                        alt="" className="postProfileImg" 
+                        // src = {Users.filter(u => u.id === post.userId)[0].profilePicture} 
+                        src = {user.profilePicture || PF + 'person/noAvatar.png'}
+                        alt="" 
+                        className="postProfileImg" 
                     />
                     <span className="postUsername">
-                        {Users.filter(u => u.id === post.userId)[0].username}
+                        {/* {Users.filter(u => u.id === post.userId)[0].username} */}
+                        {user.username}
                     </span>
-                    <span className="postDate">{post.date}</span>
+                    <span className="postDate">{format(post.created_at)}</span>
                 </div>
                 <div className="postTopRight">
                     <FontAwesomeIcon icon = {faEllipsisVertical} />
@@ -39,7 +53,11 @@ const Post = ({post}) => {
             </div>
             <div className="postCenter">
                 <span className="postText">{post?.content}</span>
-                <img src={PF + post?.photo} alt="" className="postImg" />
+                <img 
+                    src={post.image_url} 
+                    alt="" 
+                    className="postImg" 
+                />
             </div>
             <div className="postBottom">
                 <div className="postBottomLeft">
