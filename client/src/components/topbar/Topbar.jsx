@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import './topbar.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faMagnifyingGlass, faUser, faComments, faBell} from '@fortawesome/free-solid-svg-icons'
@@ -7,7 +8,9 @@ const Topbar = () => {
   return (
     <div className="topbarContainer">
         <div className="topbarLeft">
-          <span className="logo">SocialMediaApp</span>
+          <Link to = '/' style = {{textDecoration: 'none'}}>
+            <span className="logo">SocialMediaApp</span>
+          </Link>
         </div>
         <div className="topbarCenter">
           <div className="searchbar">
