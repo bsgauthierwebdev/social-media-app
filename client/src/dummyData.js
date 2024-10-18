@@ -1,52 +1,52 @@
 export const Users = [
     {
         id: 1,
-        profilePicture: 'assets/person/1.jpeg',
+        profilePicture: 'person/1.jpeg',
         username: 'Holly Golightly'
     },
     {
         id: 2,
-        profilePicture: 'assets/person/2.jpeg',
+        profilePicture: 'person/2.jpeg',
         username: 'Homer Sexual'
     },
     {
         id: 3,
-        profilePicture: 'assets/person/3.jpeg',
+        profilePicture: 'person/3.jpeg',
         username: 'Amanda Huggenkiss'
     },
     {
         id: 4,
-        profilePicture: 'assets/person/4.jpeg',
+        profilePicture: 'person/4.jpeg',
         username: 'Mike Hunt'
     },
     {
         id: 5,
-        profilePicture: 'assets/person/5.jpeg',
+        profilePicture: 'person/5.jpeg',
         username: 'Dean Winchester'
     },
     {
         id: 6,
-        profilePicture: 'assets/person/6.jpeg',
+        profilePicture: 'person/6.jpeg',
         username: 'Ho Nugget'
     },
     {
         id: 7,
-        profilePicture: 'assets/person/7.jpeg',
+        profilePicture: 'person/7.jpeg',
         username: 'Bart Simpson'
     },
     {
         id: 8,
-        profilePicture: 'assets/person/8.jpeg',
+        profilePicture: 'person/8.jpeg',
         username: 'Stewie Griffin'
     },
     {
         id: 9,
-        profilePicture: 'assets/person/9.jpeg',
+        profilePicture: 'person/9.jpeg',
         username: 'Verbal Kent'
     },
     {
         id: 10,
-        profilePicture: 'assets/person/10.jpeg',
+        profilePicture: 'person/10.jpeg',
         username: 'Han Solo'
     }
 ]
