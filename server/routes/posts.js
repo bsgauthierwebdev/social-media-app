@@ -117,7 +117,10 @@ router.get('/timeline', async (req, res) => {
             )
 
             if (friendPosts.rows.length > 0) {
-                return res.status(200).json(friendPosts.rows)
+                // Return only friend posts
+                // return res.status(200).json(friendPosts.rows)
+                // Return user & friend posts
+                return res.status(200).json(userPosts.concat(...friendPosts))
             } else {
                 return res.status(400).json("You don't follow any other users")
             }
