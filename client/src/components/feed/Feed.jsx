@@ -5,17 +5,22 @@ import Share from '../share/Share'
 import Post from '../post/Post'
 // import { Posts } from '../../dummyData'
 
-const Feed = () => {
+const Feed = ({username}) => {
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get('posts/timeline/1')
-      // console.log(res)
-      setPosts(res.data)
+      try {
+        const res = username
+          ? await axios.get(`/posts/profile/${username}`)
+          : await axios.get('/posts/timeline/1')
+        setPosts(res.data)
+      } catch (err) {
+        console.error(err.message)
+      }
     }
     fetchPosts()
-  }, [])
+  }, [username])
 
   return (
     <div className="feed">
