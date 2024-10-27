@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import {format} from 'timeago.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,7 +20,7 @@ const Post = ({post}) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const res = await axios.get(`users/${post.user_id}`)
+            const res = await axios.get(`/users/${post.user_id}`)
             setUser(res.data)
         }
         fetchUser()
@@ -35,12 +36,14 @@ const Post = ({post}) => {
         <div className="postWrapper">
             <div className="postTop">
                 <div className="postTopLeft">
-                    <img 
-                        // src = {Users.filter(u => u.id === post.userId)[0].profilePicture} 
-                        src = {user.profile_img || PF + 'person/noAvatar.png'}
-                        alt="" 
-                        className="postProfileImg" 
-                    />
+                    <Link to = {`/profile/${user.username}`}>
+                        <img 
+                            // src = {Users.filter(u => u.id === post.userId)[0].profilePicture} 
+                            src = {user.profile_img || PF + 'person/noAvatar.png'}
+                            alt="" 
+                            className="postProfileImg" 
+                        />
+                    </Link>
                     <span className="postUsername">
                         {/* {Users.filter(u => u.id === post.userId)[0].username} */}
                         {user.username}
