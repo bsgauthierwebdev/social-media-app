@@ -133,6 +133,24 @@ router.get('/timeline/:userId', async (req, res) => {
     }
 })
 
+// Get user's posts
+router.get('/profile/:username', async (req, res) => {
+    let {username} = req.params
+
+    try {
+        const userPosts = await db.query(
+            "SELECT * FROM posts JOIN users ON posts.user_id = users.user_id WHERE users.username iLIKE $1",
+            [username]
+        )
+
+        return res.status(200).json(userPosts.rows)
+
+
+    } catch (err) {
+        return res.status(500).json(err.message)
+    }
+})
+
 // Get a single post
 router.get('/:id', async (req, res) => {
     // Destructure the request
